@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="icon" href="rupee icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+    <style>
+        a:hover{
+            text-decoration: none;
+        }
+        @media screen and (max-width: 500px){
+            .navbar-brand,h2,h5{
+                font-size: 1rem;
+            }
+            p{
+                font-size: 0.85rem;
+            }
+            .navbar-brand,h2,h5{
+                font-size: 1rem;
+            }
+            .modify{
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark" style="justify-content: unset;">
+        <button class="navbar-toggler d-block collapsed" style="border: none;padding-left: 0%;padding-right: 0%;margin-left: 0%;margin-right: 10px;" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" style="width: 5vw;"></span>
+        </button>
+        <span class="navbar-brand" href="index.html" style="color: azure;">Savings App</span>
+        <span class="navbar-brand ml-auto mr-0" style="color: azure;" style="float: right;" id="total"></span>
+        
+        <div class="collapse navbar-collapse bg-dark" id="navbarToggler">
+            <ul class="nav navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="year.html">History</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="mover.html">Import / Export<span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+        </div>
+    </nav><br>
+
+    <div class="container">
+        <div class="jumbotron bg-grey" >
+            <div>
+                <h5 class="text-primary">Export Data</h5>
+                <p class="text">Copy the below input text to export.<br>Save it in a safe a place to import it back in future</p>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Export" aria-label="Export" id="exportData">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary bg-primary text-white" id="copy">Copy</button>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="jumbotron bg-grey" >
+            <div>
+                <h5 class="text-success">Import Data</h5>
+                <p class="text">Paste the text copied during export<br><br><b>Note</b><br>1. Import the data before using the app to save your.<br>2. Importing after using the app will result in losing the data stored before importing the app</p>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Paste your date here..." aria-label="Paste your date here..." id="importData">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary bg-success text-white" id="importer">Import</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script>
+        const exportData = document.querySelector("#exportData");
+        const importData = document.querySelector("#importData");
+        const copier = document.querySelector("#copy");
+        const importer = document.querySelector("#importer");
+        
+        let allExpenseJSON;
+
+        function copyy(){
+            allExpenseJSON = localStorage.getItem('Expense');
+            exportData.value = allExpenseJSON;
+        }
+
+        function exporter(){
+            copyy();
+            // copy(localStorage.getItem('Expense'));
+            exportData.select();
+            document.execCommand("copy");
+        }
+
+        function paste(){
+            localStorage.setItem('Expense',importData.value);
+            window.location = "year.html";
+        }
+        window.addEventListener("load", copyy, false);
+        copier.addEventListener("click", exporter, false);
+        importer.addEventListener("click", paste, false);
+        
+    </script>
+    
+</body>
+</html>

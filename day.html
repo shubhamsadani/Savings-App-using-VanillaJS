@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings App</title>
+    <link rel="icon" href="rupee icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <style>
+        @media screen and (max-width: 500px){
+            .navbar-brand,h2,h5{
+                font-size: 1rem;
+            }
+            small{
+                font-size: 0.75rem;
+            }
+            .modify{
+                font-size: 0.65rem;
+            }
+            .navbar-brand,h2,h5{
+                font-size: 1rem;
+            }
+            .modify{
+                font-size: 0.65rem;
+            }
+        }
+        @media screen and (max-width: 374px){
+            .px-5{
+                padding-right: .5rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark" style="justify-content: unset;">
+        <button class="navbar-toggler d-block collapsed" style="border: none;padding-left: 0%;padding-right: 0%;margin-left: 0%;margin-right: 10px;" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" style="width: 5vw;"></span>
+        </button>
+        <span class="navbar-brand" href="index.html" style="color: azure;">Savings App</span>
+        <span class="navbar-brand ml-auto mr-0" style="color: azure;" style="float: right;" id="total"></span>
+        
+        <div class="collapse navbar-collapse bg-dark" id="navbarToggler">
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="year.html">History<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="mover.html">Import/Export</a>
+                </li>
+            </ul>
+        </div>
+    </nav><br>
+
+    <div class="container">
+        <h2 class="h2 text-danger text-center" id="headMonth"></h2><br>
+        <ul class="list-group" id="output"></ul>
+        <h5 class="h5 text-secondary text-center" id="error"></h5>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script>
+        let queryString = location.search.substring(1);
+        let a = queryString.split("/");
+        console.log(a);
+        let yearName = a[0];
+        let monthName = a[1];
+        let monthNumber = a[2];
+        let i=0, j=0;
+
+        const totalExpense = document.querySelector("#total");
+        const output = document.querySelector("#output");
+        const headMonth = document.querySelector("#headMonth");
+        const error = document.querySelector("#error");
+        headMonth.innerHTML = monthName;
+        
+        let total = 0;
+        totalExpense.textContent = total;
+        let headText = parseInt(0,10);
+
+        let year = [];
+        
+        function getArray(){
+            let allExpenseJSON = localStorage.getItem('Expense');
+            year = JSON.parse(allExpenseJSON);
+            // console.log(year);
+            for(i = 0 ; i < year.length ; i++){
+                if(yearName == year[i].yearNo){
+                    for(j = 0 ; j < year[i].monthDesc.length ; j++ ){
+                        if(monthNumber == year[i].monthDesc[j].monthNo){
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            total = year[i].monthDesc[j].description.reduce(function (sum, detailExpense){ return sum = sum + parseInt(detailExpense.amount,10)}, 0);
+            headText = `Total = ${total}`;
+            if(total){
+                displayDays();
+            }
+        }
+
+        function displayDays(){
+            if(year.length != 0){
+                const allExpenseHTML = year[i].monthDesc[j].description.map(detailExpense => renderDays(detailExpense));
+                
+                // convert array of string to normal string
+                const allExpenseString = allExpenseHTML.join("");
+                totalExpense.innerHTML = headText;
+                output.innerHTML = allExpenseString;
+            }
+        }
+
+        function showDate(currentDate) {
+            let options = {year : 'numeric', month : 'long', day : 'numeric'};
+            
+            // Below step is done to convert from 2020-12-16T13:40:50.236Z format(JSON) to December 16, 2020
+            // Using new Date() 2020-12-16T13:40:50.236Z was converted to Wed Dec 16 2020 19:10:50 GMT+0530 (India Standard Time)
+            // toLocaleString was used to reduce it to December 16, 2020
+            let momento = new Date(currentDate).toLocaleString('en-US', options);
+            return momento;
+        }
+
+        function renderDays({amount, desc, moment}) {
+            return `<li class="list-group-item d-flex justify-content-between">
+                <div class="d-flex flex-column">
+                    <h5 class="text-primary">${desc}</h5>
+                    <small class="text-secondary">${showDate(moment)}</small>
+                </div>
+                <div>
+                    <h5 class="text-success">
+                        <span class="px-5">${amount}</span>
+                        <button  class="btn btn-outline-danger btn-sm" onclick="removeItem(${new Date(moment).valueOf()})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </h5>
+                </div>
+            </li>`;
+        }
+
+        function removeItem(itemDate) {
+            // console.log(itemDate);
+            let newAllExpense = [];
+            let itemValue, itemMonth, itemYear;
+            itemMonth = (new Date(itemDate)).getMonth();
+            itemYear = (new Date(itemDate)).getFullYear();
+            let [x, y] = getIndex(itemYear, itemMonth);
+            let monthlyExpense = year[x].monthDesc[y].description;
+            for(let i = 0; i < monthlyExpense.length; i++) {
+                if(itemDate != new Date(monthlyExpense[i].moment).valueOf()) {
+                    newAllExpense.push(monthlyExpense[i]);
+                }
+
+                else {
+                    if(monthlyExpense[i]){
+                        year[x].monthDesc[y].balance -= parseInt(monthlyExpense[i].amount,10);
+                        year[x].balance -= parseInt(monthlyExpense[i].amount,10);
+                        itemValue = parseInt(year[x].monthDesc[y].description[i].amount,10);
+                        if(itemValue <= 0){
+                            year[x].monthDesc[y].debit += itemValue;
+                            year[x].debit += itemValue;
+                        }
+                        else{
+                            year[x].monthDesc[y].credit -= itemValue;
+                            year[x].credit -= itemValue;
+                        }
+                    }
+                }
+            }
+            year[x].monthDesc[y].description = newAllExpense;
+            displayDays();
+            year = removeHistory(itemYear, itemMonth);
+            localStorage.setItem('Expense', JSON.stringify(year));
+            if(year.length != 0){
+                total = year[x].monthDesc[y].balance;
+            }
+            else{
+                total = 0;
+                headText = `Total = ${total}`;
+                totalExpense.innerHTML = headText;
+                error.innerHTML = `No results found`;
+                // console.log(total);
+            }
+            headText=`Total = ${total}`;
+            displayDays();
+        }
+
+        function removeHistory(itemYear, itemMonth){
+                    
+            // If no element in description then remove that month 
+            let [i, j] = getIndex(itemYear, itemMonth);
+            if(year[i].monthDesc[j].description.length == 0){
+                year[i].monthDesc.splice(j,1);
+                                
+                // If no elemnt in array monthDesc then remove that year
+                if(year[i].monthDesc.length == 0){
+                    year.splice(i,1);
+                }
+            }
+            return year;
+        }
+        
+        function getIndex(currentYear, currentMonth){
+            for(let i = 0 ; i < year.length ; i++){
+                if(year[i].yearNo == currentYear){
+                    for(let j = 0; j < year[i].monthDesc.length ; j++){
+                        if(year[i].monthDesc[j].monthNo == currentMonth){
+                            return [i, j];
+                        }
+                    }
+                }
+            }
+        }
+
+        window.addEventListener("load", getArray, false);
+    </script>
+
+</body>
+</html>
