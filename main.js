@@ -113,9 +113,14 @@ function increment(){
 
 function getArray(){
     let allExpenseJSON = localStorage.getItem('Expense');
-    year = JSON.parse(allExpenseJSON);
-    // console.log(year);
-    total = year.reduce(function (sum, detailExpense){ return sum = sum + parseInt(detailExpense.balance,10)}, 0);
+    if(allExpenseJSON != null){
+        year = JSON.parse(allExpenseJSON);
+        total = year.reduce(function (sum, detailExpense){ return sum = sum + parseInt(detailExpense.balance,10)}, 0);
+    }
+    else{
+        year = [];
+    }
+
     headText = `Total = ${total}`;
     if(total){
         display();
