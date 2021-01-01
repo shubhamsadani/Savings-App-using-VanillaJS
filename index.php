@@ -27,6 +27,12 @@
             .modify{
                 font-size: 0.65rem;
             }
+            input::placeholder{
+                font-size: 0.75rem;
+            }
+            button,.rupay{
+                font-size: 0.85rem !important;
+            }
         }
         @media screen and (max-width: 374px){
             .px-5{
@@ -62,7 +68,7 @@
         <div class="jumbotron bg-grey" >
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text bg-primary text-white">Rs</span>
+                    <span class="input-group-text bg-primary text-white rupay">Rs</span>
                 </div>
                 <input type="text" class="form-control" placeholder="Amount" aria-label="Amount" id="amount">
             </div>
