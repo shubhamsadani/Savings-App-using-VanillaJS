@@ -46,7 +46,7 @@
         <button class="navbar-toggler d-block collapsed" style="border: none;padding-left: 0%;padding-right: 0%;margin-left: 0%;margin-right: 10px;" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon" style="width: 5vw;"></span>
         </button>
-        <span class="navbar-brand" href="index.html" style="color: azure;">Savings App</span>
+        <span class="navbar-brand" href="index.php" style="color: azure;">Savings App</span>
         <span class="navbar-brand ml-auto mr-0" style="color: azure;" style="float: right;" id="total"></span>
         
         <div class="collapse navbar-collapse bg-dark" id="navbarToggler">
