@@ -46,13 +46,13 @@
         <div class="collapse navbar-collapse bg-dark" id="navbarToggler">
             <ul class="nav navbar-nav">
               <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php">Home<span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="year.html">History</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="mover.html">Import/Export</a>
+                <a class="nav-link" href="mover.html">Import / Export</a>
               </li>
             </ul>
         </div>
