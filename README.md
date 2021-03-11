@@ -1,2 +1,2 @@
 # Savings App using VanillaJS
-https://www.savingsapplication.herokuapp.com
+https://savingsapplication.herokuapp.com/
