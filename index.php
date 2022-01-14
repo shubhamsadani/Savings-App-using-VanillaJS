@@ -83,7 +83,7 @@
             
         </div>
         <!-- <div class="card">
-        <div class="card-body">
+        <div class="card-body py-5">
             <h5 class="card-title text-primary">Apple</h5>
             <p class="card-text text-success">25/11/20, Wednesday</p>
         </div>
